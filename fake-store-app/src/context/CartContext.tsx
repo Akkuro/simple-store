@@ -6,8 +6,9 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type CartContextProps = {
   cart: CartItem[];
   addToCart: (product: Product) => void;
-  setQuantity: (productId: number, delta: number) => void;
+  setQuantity: (productId: number, quantity: number) => void;
   adjustQuantity: (productId: number, delta: number) => void;
+  removeFromCart: (productId: number) => void;
 };
 
 const CartContext = createContext<CartContextProps>({
@@ -15,6 +16,7 @@ const CartContext = createContext<CartContextProps>({
   addToCart: () => {},
   setQuantity: () => {},
   adjustQuantity: () => {},
+  removeFromCart: () => {},
 });
 
 type CartProviderProps = {
@@ -59,11 +61,15 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     );
   };
 
-  console.log(cart);
+  const removeFromCart = (productId: number) => {
+    setCart((prevCart) =>
+      prevCart.filter((item: CartItem) => item.product.id !== productId)
+    );
+  };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, setQuantity, adjustQuantity }}
+      value={{ cart, addToCart, setQuantity, adjustQuantity, removeFromCart }}
     >
       {children}
     </CartContext.Provider>

@@ -1,9 +1,10 @@
 "use client";
 import { useCart } from "@/context/CartContext";
 import React from "react";
+import { FaTrash } from "react-icons/fa6";
 
 const Cart: React.FC<undefined> = () => {
-  const { cart, setQuantity, adjustQuantity } = useCart();
+  const { cart, setQuantity, adjustQuantity, removeFromCart } = useCart();
 
   return (
     <div className="p-4">
@@ -28,31 +29,40 @@ const Cart: React.FC<undefined> = () => {
                   <p>{item.product.price} €</p>
                 </div>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center">
+                  <button
+                    onClick={() => adjustQuantity(item.product.id, -1)}
+                    className="px-2 py-1 border rounded-l bg-gray-100 hover:bg-gray-200"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) => {
+                      const parsedValue = parseInt(e.target.value);
+                      return setQuantity(
+                        item.product.id,
+                        isNaN(parsedValue) ? 1 : parsedValue
+                      );
+                    }}
+                    className="w-16 px-2 py-1 border-t border-b text-center"
+                    min="1"
+                  />
+                  <button
+                    onClick={() => adjustQuantity(item.product.id, 1)}
+                    className="px-2 py-1 border rounded-r bg-gray-100 hover:bg-gray-200"
+                  >
+                    +
+                  </button>
+                </div>
                 <button
-                  onClick={() => adjustQuantity(item.product.id, -1)}
-                  className="px-2 py-1 border rounded-l bg-gray-100 hover:bg-gray-200"
+                    onClick={() => removeFromCart(item.product.id)}
+                  className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded"
+                  aria-label="Remove item"
                 >
-                  -
-                </button>
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const parsedValue = parseInt(e.target.value);
-                    return setQuantity(
-                      item.product.id,
-                      isNaN(parsedValue) ? 1 : parsedValue
-                    );
-                  }}
-                  className="w-16 px-2 py-1 border-t border-b text-center"
-                  min="1"
-                />
-                <button
-                  onClick={() => adjustQuantity(item.product.id, 1)}
-                  className="px-2 py-1 border rounded-r bg-gray-100 hover:bg-gray-200"
-                >
-                  +
+                  <FaTrash className="w-5 h-5" />
                 </button>
               </div>
             </li>
