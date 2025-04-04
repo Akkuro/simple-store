@@ -6,11 +6,15 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type CartContextProps = {
   cart: CartItem[];
   addToCart: (product: Product) => void;
+  setQuantity: (productId: number, delta: number) => void;
+  adjustQuantity: (productId: number, delta: number) => void;
 };
 
 const CartContext = createContext<CartContextProps>({
   cart: [],
   addToCart: () => {},
+  setQuantity: () => {},
+  adjustQuantity: () => {},
 });
 
 type CartProviderProps = {
@@ -35,10 +39,32 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     });
   };
 
+  const setQuantity = (productId: number, quantity: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: Math.max(1, quantity) }
+          : item
+      )
+    );
+  };
+
+  const adjustQuantity = (productId: number, delta: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
   console.log(cart);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, setQuantity, adjustQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );
