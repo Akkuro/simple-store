@@ -1,4 +1,4 @@
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 import { Product } from "@/interfaces/Product";
 
 interface Props {

@@ -1,5 +1,5 @@
 "use client";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/contexts/CartContext";
 import React from "react";
 import { FaTrash } from "react-icons/fa6";
 
