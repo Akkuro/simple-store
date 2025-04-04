@@ -16,3 +16,16 @@ export const getProducts = async () => {
     throw error;
   }
 };
+
+export const loginUser = async (username: string, password: string) => {
+  try {
+    const response = await apiClient.post("/auth/login", {
+      username,
+      password,
+    });
+    return response.data; // Renvoie le token ou d'autres données
+  } catch (error) {
+    console.error("Erreur lors de la connexion :", error);
+    throw error;
+  }
+};
