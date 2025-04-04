@@ -2,7 +2,10 @@
 import { loginUser } from "@/utils/api";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type AuthContextProps = {};
+type AuthContextProps = {
+  accessToken: string;
+  login: (username: string, password: string) => void;
+};
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -11,7 +14,7 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState<string>("");
 
   const login = async (username: string, password: string) => {
     try {

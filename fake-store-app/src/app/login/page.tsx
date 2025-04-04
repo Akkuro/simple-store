@@ -1,9 +1,39 @@
 "use client";
 import { useAuth } from "@/contexts/AuthContext";
-import React from "react";
+import React, { useState } from "react";
+
+interface LoginFormData {
+  username: string;
+  password: string;
+}
 
 const LoginPage: React.FC<undefined> = () => {
-  const {} = useAuth();
+  const { login } = useAuth();
+
+  const [formData, setFormData] = useState<LoginFormData>({
+    username: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  //   const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      console.log("Login attempt with:", formData);
+
+      login(formData.username, formData.password);
+      //   navigate('/');
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="mt-20 flex items-center justify-center">
@@ -12,7 +42,7 @@ const LoginPage: React.FC<undefined> = () => {
           Login
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -25,6 +55,10 @@ const LoginPage: React.FC<undefined> = () => {
               id="username"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your username"
+              value={formData.username}
+              onChange={(e) =>
+                setFormData({ ...formData, username: e.target.value })
+              }
             />
           </div>
 
@@ -40,6 +74,10 @@ const LoginPage: React.FC<undefined> = () => {
               id="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
           </div>
 
