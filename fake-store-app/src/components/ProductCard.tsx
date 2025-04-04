@@ -1,15 +1,18 @@
+import { useCart } from "@/context/CartContext";
 import { Product } from "@/interfaces/Product";
 
-interface Props extends Product {}
+interface Props {
+  product: Product;
+}
 
-export const ProductCard: React.FC<Props> = ({
-  id,
-  title,
-  price,
-  description,
-  category,
-  image,
-}) => {
+export const ProductCard: React.FC<Props> = ({ product }) => {
+  const { id, title, price, description, category, image } = product;
+
+  const { addToCart } = useCart();
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <img src={image} alt={title} className="w-full h-48 object-contain p-4" />
@@ -27,7 +30,7 @@ export const ProductCard: React.FC<Props> = ({
           </span>
           <button
             className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
-            onClick={() => console.log("Added:", id)}
+            onClick={handleAddToCart}
           >
             Add to Cart
           </button>
