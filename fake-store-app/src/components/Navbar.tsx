@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineLogin, AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function Navbar() {
   return (
@@ -8,9 +8,14 @@ export default function Navbar() {
         <Link href="/">
           <span className="text-xl font-bold cursor-pointer">Fake Store</span>
         </Link>
-        <Link href="/cart">
-          <AiOutlineShoppingCart className="text-2xl cursor-pointer" />
-        </Link>
+        <div className="flex gap-6 justify-between">
+            <Link href="/cart">
+              <AiOutlineShoppingCart className="text-2xl cursor-pointer" />
+            </Link>
+            <Link href="/login">
+              <AiOutlineLogin className="text-2xl cursor-pointer" />
+            </Link>
+        </div>
       </div>
     </nav>
   );

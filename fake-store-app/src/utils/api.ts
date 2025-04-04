@@ -23,7 +23,7 @@ export const loginUser = async (username: string, password: string) => {
       username,
       password,
     });
-    return response.data; // Renvoie le token ou d'autres données
+    return response.data;
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
     throw error;
