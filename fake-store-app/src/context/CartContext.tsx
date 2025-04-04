@@ -21,8 +21,18 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (product: Product) => {
-    const cartItem: CartItem = { product: product, quantity: 1 };
-    setCart((prevCart: CartItem[]) => [...prevCart, cartItem]);
+    setCart((prevCart: CartItem[]) => {
+      const existingItem = prevCart.find(
+        (item: CartItem) => item.product.id === product.id
+      );
+      return existingItem
+        ? prevCart.map((prevCartItem: CartItem) =>
+            prevCartItem.product.id === product.id
+              ? { ...prevCartItem, quantity: prevCartItem.quantity + 1 }
+              : prevCartItem
+          )
+        : [...prevCart, { product: product, quantity: 1 }];
+    });
   };
 
   console.log(cart);
