@@ -11,13 +11,7 @@ type CartContextProps = {
   removeFromCart: (productId: number) => void;
 };
 
-const CartContext = createContext<CartContextProps>({
-  cart: [],
-  addToCart: () => {},
-  setQuantity: () => {},
-  adjustQuantity: () => {},
-  removeFromCart: () => {},
-});
+const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 type CartProviderProps = {
   children: ReactNode;
@@ -76,4 +70,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("Cart context should be used within CartContextProvider");
+  }
+  return context;
+};
