@@ -16,7 +16,15 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
 
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <Image src={image} alt={title} className="w-full h-48 object-contain p-4" />
+      <div className="relative w-full h-48">
+        <Image
+          src={image}
+          alt={title}
+          layout="fill"
+          objectFit="contain"
+          className="p-4"
+        />
+      </div>
       <div className="p-4">
         <span className="text-sm text-gray-500 mb-2 block">{category}</span>
         <h3 className="text-lg font-semibold mb-2 truncate" title={title}>

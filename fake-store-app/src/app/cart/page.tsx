@@ -23,7 +23,9 @@ const Cart: React.FC = () => {
                 <Image
                   src={item.product.image}
                   alt={item.product.title}
-                  className="w-16 h-16"
+                  layout="intrinsic"
+                  width={16}
+                  height={16}
                 />
                 <div>
                   <h2 className="font-bold">{item.product.title}</h2>
@@ -59,7 +61,7 @@ const Cart: React.FC = () => {
                   </button>
                 </div>
                 <button
-                    onClick={() => removeFromCart(item.product.id)}
+                  onClick={() => removeFromCart(item.product.id)}
                   className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded"
                   aria-label="Remove item"
                 >
