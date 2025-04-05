@@ -26,10 +26,8 @@ const LoginPage: React.FC<undefined> = () => {
     setError(null);
 
     try {
-      console.log("Login attempt with:", formData);
-
       await login(formData.username, formData.password);
-      router.push("/");
+      router.replace("/");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
     } finally {
@@ -51,6 +49,8 @@ const LoginPage: React.FC<undefined> = () => {
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
+            {error && <div className="mb-4 text-red-500 text-sm">{error}</div>}
+
             <div className="mb-4">
               <label
                 htmlFor="username"
@@ -67,6 +67,7 @@ const LoginPage: React.FC<undefined> = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
+                disabled={isLoading}
               />
             </div>
 
@@ -86,14 +87,20 @@ const LoginPage: React.FC<undefined> = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
+                disabled={isLoading}
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className={`w-full py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                isLoading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 text-white"
+              }`}
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </form>
         )}
