@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface LoginFormData {
@@ -9,6 +10,7 @@ interface LoginFormData {
 
 const LoginPage: React.FC<undefined> = () => {
   const { login } = useAuth();
+  const router = useRouter();
 
   const [formData, setFormData] = useState<LoginFormData>({
     username: "",
@@ -16,7 +18,6 @@ const LoginPage: React.FC<undefined> = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  //   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,8 +27,8 @@ const LoginPage: React.FC<undefined> = () => {
     try {
       console.log("Login attempt with:", formData);
 
-      login(formData.username, formData.password);
-      //   navigate('/');
+      await login(formData.username, formData.password);
+      router.push("/");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
     } finally {

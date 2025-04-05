@@ -4,7 +4,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 type AuthContextProps = {
   accessToken: string;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -16,7 +16,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string>("");
 
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string): Promise<void> => {
     try {
       const data = await loginUser(username, password);
       const { token } = data;
@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 
