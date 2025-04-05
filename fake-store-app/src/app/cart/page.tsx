@@ -1,9 +1,10 @@
 "use client";
 import { useCart } from "@/contexts/CartContext";
+import Image from "next/image";
 import React from "react";
 import { FaTrash } from "react-icons/fa6";
 
-const Cart: React.FC<undefined> = () => {
+const Cart: React.FC = () => {
   const { cart, setQuantity, adjustQuantity, removeFromCart } = useCart();
 
   return (
@@ -19,7 +20,7 @@ const Cart: React.FC<undefined> = () => {
               className="flex justify-between items-center"
             >
               <div className="flex items-center space-x-4">
-                <img
+                <Image
                   src={item.product.image}
                   alt={item.product.title}
                   className="w-16 h-16"

@@ -9,7 +9,7 @@ interface LoginFormData {
   password: string;
 }
 
-const LoginPage: React.FC<undefined> = () => {
+const LoginPage: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -30,7 +30,7 @@ const LoginPage: React.FC<undefined> = () => {
       await login(formData.username, formData.password);
       setIsRedirecting(true);
       router.replace("/");
-    } catch (err) {
+    } catch {
       setError("Invalid email or password. Please try again.");
     } finally {
       setIsLoading(false);

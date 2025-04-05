@@ -1,12 +1,13 @@
 import { useCart } from "@/contexts/CartContext";
 import { Product } from "@/interfaces/Product";
+import Image from "next/image";
 
 interface Props {
   product: Product;
 }
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
-  const { id, title, price, description, category, image } = product;
+  const { title, price, description, category, image } = product;
 
   const { addToCart } = useCart();
   const handleAddToCart = () => {
@@ -15,7 +16,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
 
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <img src={image} alt={title} className="w-full h-48 object-contain p-4" />
+      <Image src={image} alt={title} className="w-full h-48 object-contain p-4" />
       <div className="p-4">
         <span className="text-sm text-gray-500 mb-2 block">{category}</span>
         <h3 className="text-lg font-semibold mb-2 truncate" title={title}>
