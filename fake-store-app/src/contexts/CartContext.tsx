@@ -1,6 +1,7 @@
 "use client";
 import { CartItem } from "@/interfaces/CartItem";
 import { Product } from "@/interfaces/Product";
+import { eventEmitter } from "@/utils/eventEmitter";
 import {
   createContext,
   ReactNode,
@@ -40,6 +41,19 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleLogout = () => {
+      setCart([]);
+      localStorage.removeItem("cart");
+    };
+  
+    eventEmitter.on("logout", handleLogout);
+  
+    return () => {
+      eventEmitter.off("logout", handleLogout);
+    };
+  }, []);
+  
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);

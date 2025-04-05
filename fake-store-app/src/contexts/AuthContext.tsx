@@ -1,5 +1,6 @@
 "use client";
 import { loginUser } from "@/utils/api";
+import { eventEmitter } from "@/utils/eventEmitter";
 import {
   createContext,
   ReactNode,
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     setAccessToken(null);
     localStorage.removeItem("accessToken");
+    eventEmitter.emit("logout");
   };
 
   const isAuthenticated = !!accessToken;
