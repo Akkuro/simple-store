@@ -19,14 +19,16 @@ const Cart: React.FC = () => {
               key={item.product.id}
               className="flex justify-between items-center"
             >
-              <div className="flex items-center space-x-4">
-                <Image
-                  src={item.product.image}
-                  alt={item.product.title}
-                  layout="intrinsic"
-                  width={16}
-                  height={16}
-                />
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0 aspect-square flex items-center justify-center">
+                  <Image
+                    src={item.product.image}
+                    alt={item.product.title}
+                    width={100}
+                    height={100}
+                    className="max-h-[5rem] max-w-[5rem] object-contain"
+                  />
+                </div>
                 <div>
                   <h2 className="font-bold">{item.product.title}</h2>
                   <p>{item.product.price} €</p>
