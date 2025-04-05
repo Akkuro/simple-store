@@ -18,6 +18,7 @@ const LoginPage: React.FC<undefined> = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,6 +28,7 @@ const LoginPage: React.FC<undefined> = () => {
 
     try {
       await login(formData.username, formData.password);
+      setIsRedirecting(true);
       router.replace("/");
     } catch (err) {
       setError("Invalid email or password. Please try again.");
@@ -34,6 +36,10 @@ const LoginPage: React.FC<undefined> = () => {
       setIsLoading(false);
     }
   };
+
+  if (isRedirecting) {
+    return null;
+  }
 
   return (
     <div className="mt-20 flex items-center justify-center">
