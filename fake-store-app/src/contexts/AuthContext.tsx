@@ -1,10 +1,18 @@
 "use client";
 import { loginUser } from "@/utils/api";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type AuthContextProps = {
-  accessToken: string;
+  accessToken: string | null;
   login: (username: string, password: string) => Promise<void>;
+  logout: () => void;
+  isAuthenticated: boolean;
 };
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -14,7 +22,14 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [accessToken, setAccessToken] = useState<string>("");
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken) {
+      setAccessToken(storedToken);
+    }
+  }, []);
 
   const login = async (username: string, password: string): Promise<void> => {
     try {
@@ -22,6 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { token } = data;
       if (token) {
         setAccessToken(token);
+        localStorage.setItem("accessToken", token);
       }
     } catch (error) {
       console.error(error);
@@ -29,8 +45,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const logout = () => {
+    setAccessToken(null);
+    localStorage.removeItem("accessToken");
+  };
+
+  const isAuthenticated = !!accessToken;
+
   return (
-    <AuthContext.Provider value={{ accessToken, login }}>
+    <AuthContext.Provider
+      value={{ accessToken, login, logout, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );
